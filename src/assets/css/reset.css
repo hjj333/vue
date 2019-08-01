@@ -22,13 +22,11 @@ time, mark, audio, video, input {
   font-weight: normal;
   vertical-align: baseline;
 }
-
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, menu, nav, section {
   display: block;
 }
-
 body {
   line-height: 1;
 }
@@ -41,28 +39,23 @@ blockquote:before, blockquote:after,
 q:before, q:after {
   content: none;
 }
-
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
 /* custom */
 a {
   color: #7e8c8d;
   text-decoration: none;
   -webkit-backface-visibility: hidden;
 }
-
 li {
   list-style: none;
 }
-
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
-
 ::-webkit-scrollbar-track-piece {
   background-color: rgba(0, 0, 0, 0.2);
   -webkit-border-radius: 6px;

@@ -28,10 +28,14 @@ export default {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 30%;
+        width: 50%;
         color: #fff;
-        font-size: 22px;
         text-align: center;
+        .header_title_text {
+          font-size: 20px;
+          color: #fff;
+          display: block;
+        }
     }
 }
 </style>

@@ -28,12 +28,12 @@
 </template>
 <script>
 export default {
-  methods:{
-    goto(path){
+  methods: {
+    goto (path) {
       this.$router.replace(path)
     }
   }
-};
+}
 </script>
 <style lang="less" rel="stylesheet/less">
 .footer_guide {

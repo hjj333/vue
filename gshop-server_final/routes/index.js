@@ -116,9 +116,7 @@ router.post('/login_sms', function (req, res, next) {
       })
     }
   })
-
 })
-
 /*
 根据sesion中的userid, 查询对应的user
  */

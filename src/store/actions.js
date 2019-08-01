@@ -1,13 +1,18 @@
-// action：提交mutation，可以包含任意异步操
+// action：提交mutation，可以包含任意异步操作
 // Action 函数接受一个与 store 实例具有相同方法和属性的 context 对象，
 // 因此你可以调用 context.commit 提交一个 mutation，
 // 或者通过 context.state 和 context.getters 来获取 state 和 getters
 import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_SHOPS
+  RECEIVE_SHOPS,
+  RECEIVE_USERINFO,
+  RESET_USERINFO,
+  RECEIVE_GOODS,
+  RECEIVE_RATINGS,
+  RECEIVE_INFO
 } from './mutation-types'
-import { reqAddress, reqFoodCategorys, reqShops } from '../../api/index'
+import { reqAddress, reqFoodCategorys, reqShops, reqUserInfo, reqLogout, reqShopGoods, reqShopRatings, reqShopInfo } from '../../api/index'
 
 export default {
   async getAddress ({ commit, state }) {
@@ -25,12 +30,52 @@ export default {
       commit(RECEIVE_CATEGORYS, { categorys })
     }
   },
-  async getshops ({ commit, state }) {
-    const { longitude, latitude } = state
-    const result = await reqShops(longitude, latitude)
+  async getShops ({ commit, state }) {
+    const { latitude, longitude } = state
+    const result = await reqShops(latitude, longitude)
     if (result.code === 0) {
       const shops = result.data
       commit(RECEIVE_SHOPS, { shops })
+    }
+  },
+  // 同步记录用户信息
+  recordUser ({ commit }, userInfo) {
+    commit(RECEIVE_USERINFO, { userInfo })
+  },
+  // 异步获取用户信息
+  async getUserInfo ({ commit }) {
+    const result = await reqUserInfo()
+    if (result.code === 0) {
+      const userInfo = result.data
+      commit(RECEIVE_USERINFO, { userInfo })
+    }
+  },
+  // 异步退出登录
+  async logout ({ commit }) {
+    const result = await reqLogout()
+    if (result.code === 0) {
+      commit(RESET_USERINFO)
+    }
+  },
+  async getShopGoods ({ commit }) {
+    const result = await reqShopGoods()
+    if (result.code === 0) {
+      const goods = result.data
+      commit(RECEIVE_GOODS, { goods })
+    }
+  },
+  async getShopRatings ({ commit }) {
+    const result = await reqShopRatings()
+    if (result.code === 0) {
+      const ratings = result.data
+      commit(RECEIVE_RATINGS, { ratings })
+    }
+  },
+  async getShopInfo ({ commit }) {
+    const result = await reqShopInfo()
+    if (result.code === 0) {
+      const info = result.data
+      commit(RECEIVE_INFO, { info })
     }
   }
 }
