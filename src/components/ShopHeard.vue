@@ -108,24 +108,24 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    data() {
-        return {
-            supportClasses: ['activity-green', 'activity-red', 'activity-orange'],
-            shopShow: false,
-            supportShow: false
-        }
-    },
-    computed: {
-        ...mapState(['info'])
-    },
-    methods: {
-        toggleShopShow () {
-            this.shopShow = !this.shopShow
-        },
-        toggleSupportShow () {
-            this.supportShow = !this.supportShow
-        }
+  data () {
+    return {
+      supportClasses: ['activity-green', 'activity-red', 'activity-orange'],
+      shopShow: false,
+      supportShow: false
     }
+  },
+  computed: {
+    ...mapState(['info'])
+  },
+  methods: {
+    toggleShopShow () {
+      this.shopShow = !this.shopShow
+    },
+    toggleSupportShow () {
+      this.supportShow = !this.supportShow
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -337,7 +337,7 @@ export default {
       color: #333;
       &.fade-enter-active,&.fade-leave-active {
         transition: opacity .5s;
-      } 
+      }
       &.fade-enter,&.fade-leave-to {
         opacity: 0;
       }
@@ -394,7 +394,7 @@ export default {
               justify-content: center;
             }
           }
-        }   
+        }
         .brief-modal-msg {
           display: flex;
           margin: 20px -10px 0;
@@ -411,8 +411,8 @@ export default {
               font-size: 12px;
               color: #999;
             }
-          } 
-        }    
+          }
+        }
         .brief-modal-title {
           position: relative;
           text-align: center;
@@ -449,7 +449,7 @@ export default {
           }
         }
       }
-    }  
+    }
     .activity-sheet {
       position: fixed;
       top: 0;
@@ -498,7 +498,7 @@ export default {
             &.activity-orange {
               .content-tag {
                 background-color: rgb(241, 136, 79);
-              } 
+              }
             }
             .content-tag {
               display: inline-block;
@@ -534,7 +534,7 @@ export default {
           > span {
             font-size: 20px;
           }
-        }      
+        }
       }
       .activity-sheet-cover {
         position: absolute;
@@ -543,7 +543,7 @@ export default {
         top: 0;
         left: 0;
         background-color: rgba(0, 0, 0, .5);
-      }   
+      }
     }
   }
 </style>

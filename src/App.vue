@@ -14,13 +14,12 @@ export default {
     this.getCategorys()
     this.getShops()
     this.getUserInfo()
-    this.getShopGoods()
     this.getShopRatings()
     this.getShopInfo()
   },
   methods: {
     // 使用mapAction辅助函数将组件的methods映射为store.dispatch调用
-    ...mapActions(['getAddress', 'getCategorys', 'getShops', 'getUserInfo', 'getShopGoods', 'getShopRatings', 'getShopInfo'])
+    ...mapActions(['getAddress', 'getCategorys', 'getShops', 'getUserInfo', 'getShopRatings', 'getShopInfo'])
   },
   components: {
     FooterGuide

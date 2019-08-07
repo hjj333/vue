@@ -16,12 +16,12 @@
   </div>
 </template>
 <script>
-import ShopHeard from "../../components/ShopHeard";
+import ShopHeard from '../../components/ShopHeard'
 export default {
   components: {
     ShopHeard
   }
-};
+}
 </script>
 <style lang="less">
 .tab {

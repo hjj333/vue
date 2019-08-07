@@ -67,7 +67,7 @@ export default {
   // 该回调会在任何被侦听的对象的 property 改变时被调用，不论其被嵌套多深
   watch: {
     categorys () {
-      // categorys修改后立即执行$nextTick，即界面更新完成立即调用
+      // categorys修改后立即执行$nextTick，即数据更新完成立即调用
       this.$nextTick(() => {
         // 将回调延迟到下次 DOM 更新循环之后执行，即在界面更新后立即创建Swiper对象
         new Swiper('.swiper-container', {

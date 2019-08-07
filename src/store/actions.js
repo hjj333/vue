@@ -10,7 +10,9 @@ import {
   RESET_USERINFO,
   RECEIVE_GOODS,
   RECEIVE_RATINGS,
-  RECEIVE_INFO
+  RECEIVE_INFO,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT
 } from './mutation-types'
 import { reqAddress, reqFoodCategorys, reqShops, reqUserInfo, reqLogout, reqShopGoods, reqShopRatings, reqShopInfo } from '../../api/index'
 
@@ -57,11 +59,13 @@ export default {
       commit(RESET_USERINFO)
     }
   },
-  async getShopGoods ({ commit }) {
+  async getShopGoods ({ commit }, callback) {
     const result = await reqShopGoods()
     if (result.code === 0) {
       const goods = result.data
       commit(RECEIVE_GOODS, { goods })
+      // 数据更新后执行回调函数
+      callback && callback()
     }
   },
   async getShopRatings ({ commit }) {
@@ -76,6 +80,14 @@ export default {
     if (result.code === 0) {
       const info = result.data
       commit(RECEIVE_INFO, { info })
+    }
+  },
+  // 同步更新food中的count
+  updateFoodCount ({ commit }, { isAdd, food}) {
+    if (isAdd) {
+      commit(INCREMENT_FOOD_COUNT, { food })
+    } else {
+      commit(DECREMENT_FOOD_COUNT, { food })
     }
   }
 }

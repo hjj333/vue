@@ -3,7 +3,8 @@
     <div class="goods">
       <div class="menu-wrapper">
         <ul>
-          <li class="menu-item" v-for="(good, index) in goods" :key="index">
+          <li class="menu-item" v-for="(good, index) in goods" :key="index"
+              :class="{current: index === currentIndex}" @click="clickMenuItem(index)">
             <span class="text">
               <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}}
@@ -12,12 +13,11 @@
         </ul>
       </div>
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="foodsUl">
           <li class="food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item" v-for="(food, index) in good.foods"
-                  :key="index">
+              <li class="food-item" v-for="(food, index) in good.foods" :key="index" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon">
                 </div>
@@ -33,6 +33,7 @@
                     <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
+                    <CartControl :food="food"></CartControl>
                   </div>
                 </div>
               </li>
@@ -41,14 +42,80 @@
         </ul>
       </div>
     </div>
+    <Food :food="food" ref="food"></Food>
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
+import BScroll from 'better-scroll'
+import CartControl from '../../components/CartControl/CartControl'
+import Food from '../../components/Food/Food'
 export default {
-    computed: {
-        ...mapState(['goods'])
+  data () {
+    return {
+      scrollY: 0, // 右侧滑动的Y轴坐标
+      tops: [], // 所有右侧分类li的top组成的数组
+      food: {}
     }
+  },
+  mounted () {
+    // 派发actions
+    this.$store.dispatch('getShopGoods', () => {
+      this.$nextTick(() => {
+        // 列表界面显示后创建
+        new BScroll('.menu-wrapper', {
+          click: true
+        })
+        this.foodsScroll = new BScroll('.foods-wrapper', {
+          probeType: 2, // 因为惯性滑动不会触发
+          click: true // 允许点击事件
+        })
+        // 给右侧列表绑定scroll监听
+        this.foodsScroll.on('scroll', ({ x, y }) => {
+          this.scrollY = Math.abs(y)
+        })
+        // 给右侧列表绑定scroll结束监听，获得Y轴滑动距离
+        this.foodsScroll.on('scrollEnd', ({ x, y }) => {
+          this.scrollY = Math.abs(y)
+        })
+        // 收集tops的值
+        let top = 0
+        this.tops.push(top)
+        const lis = this.$refs.foodsUl.children
+        Array.prototype.slice.call(lis).forEach(li => {
+          top += li.clientHeight
+          this.tops.push(top)
+        })
+      })
+    })
+  },
+  computed: {
+    ...mapState(['goods']),
+    currentIndex () {
+      const { scrollY, tops } = this
+      const index = tops.findIndex((top, index) => {
+        return scrollY >= top && scrollY < tops[index + 1]
+      })
+      return index
+    }
+  },
+  methods: {
+    clickMenuItem (index) {
+      const y = this.tops[index]
+      this.scrollY = y
+      this.foodsScroll.scrollTo(0, -y, 300)
+    },
+    showFood (food) {
+      // 点击设置food
+      this.food = food
+      // 显示food组件
+      this.$refs.food.toggleShow()
+    }
+  },
+  components: {
+    CartControl,
+    Food
+  }
 }
 </script>
 
@@ -64,7 +131,7 @@ export default {
     .menu-wrapper {
       flex: 0 0 80px;
       width: 80px;
-      background: #f3f5f7; 
+      background: #f3f5f7;
       ul {
         padding: 0;
         .menu-item {
@@ -73,12 +140,12 @@ export default {
           width: 56px;
           line-height: 14px;
           &.current {
-              position: relative;
-              z-index: 10;
-              margin-top: -1px;
-              background: #fff;
-              color: green;
-              font-weight: 700;
+            position: relative;
+            z-index: 10;
+            margin-top: -1px;
+            background: #fff;
+            color: #02a774;
+            font-weight: 700;
           }
           .icon {
               display: inline-block;
@@ -96,7 +163,7 @@ export default {
               font-size: 12px;
           }
         }
-      } 
+      }
     }
     .foods-wrapper {
       flex: 1;
@@ -118,7 +185,7 @@ export default {
           padding-bottom: 18px;
           &:last-child {
             margin-bottom: 0;
-          } 
+          }
           .icon {
             flex: 0 0 57px;
             margin-right: 10px;
@@ -163,10 +230,10 @@ export default {
             .cartcontrol-wrapper {
               position: absolute;
               right: 0;
-              bottom: 12px;
+              top: 120px;
             }
           }
-        }   
+        }
       }
     }
   }
