@@ -12,45 +12,60 @@ import {
   RECEIVE_RATINGS,
   RECEIVE_INFO,
   INCREMENT_FOOD_COUNT,
-  DECREMENT_FOOD_COUNT
+  DECREMENT_FOOD_COUNT,
+  CLEAR_CART,
+  RECEIVE_SEARCHSHOPS
 } from './mutation-types'
 
 export default {
   // 使用ES2015风格的计算属性命名功能来使用一个常量作为函数名
-  [RECEIVE_ADDRESS](state, { address }) {
+  [RECEIVE_ADDRESS] (state, { address }) {
     state.address = address
   },
-  [RECEIVE_CATEGORYS](state, { categorys }) {
+  [RECEIVE_CATEGORYS] (state, { categorys }) {
     state.categorys = categorys
   },
-  [RECEIVE_SHOPS](state, { shops }) {
+  [RECEIVE_SHOPS] (state, { shops }) {
     state.shops = shops
   },
-  [RECEIVE_USERINFO](state, { userInfo }) {
+  [RECEIVE_USERINFO] (state, { userInfo }) {
     state.userInfo = userInfo
   },
-  [RESET_USERINFO](state) {
+  [RESET_USERINFO] (state) {
     state.userInfo = {}
   },
-  [RECEIVE_GOODS](state, { goods }) {
+  [RECEIVE_GOODS] (state, { goods }) {
     state.goods = goods
   },
-  [RECEIVE_RATINGS](state, { ratings }) {
+  [RECEIVE_RATINGS] (state, { ratings }) {
     state.ratings = ratings
   },
-  [RECEIVE_INFO](state, { info }) {
+  [RECEIVE_INFO] (state, { info }) {
     state.info = info
   },
-  [INCREMENT_FOOD_COUNT](state, { food }) {
+  [INCREMENT_FOOD_COUNT] (state, { food }) {
     if (!food.count) { // 第一次点击
       Vue.set(food, 'count', 1) // 设置新增的自定义属性也有数据绑定
+      state.cartFoods.push(food) // 将点击选中的food添加到cartFoods中
     } else {
       food.count++
     }
   },
-  [DECREMENT_FOOD_COUNT](state, { food }) {
+  [DECREMENT_FOOD_COUNT] (state, { food }) {
     if (food.count) {
       food.count--
+      if (food.count === 0) {
+        state.cartFoods.splice(state.cartFoods.indexOf(food), 1)
+      }
     }
+  },
+  [CLEAR_CART] (state) {
+    state.cartFoods.forEach(food => {
+      food.count = 0
+    })
+    state.cartFoods = []
+  },
+  [RECEIVE_SEARCHSHOPS] (state, { searchShops }) {
+    state.searchShops = searchShops
   }
 }

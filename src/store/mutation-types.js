@@ -9,3 +9,5 @@ export const RECEIVE_RATINGS = 'receive_ratings'
 export const RECEIVE_INFO = 'receive_info'
 export const INCREMENT_FOOD_COUNT = 'increment_food_count' // 增加food中的count值
 export const DECREMENT_FOOD_COUNT = 'decrement_food_count'
+export const CLEAR_CART = 'clear_cart' // 清空购物车
+export const RECEIVE_SEARCHSHOPS = 'receive_searchshops' // 搜索商家列表

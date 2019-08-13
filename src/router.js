@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Msite from './views/Msite.vue'
-import Order from './views/Order.vue'
+// import Msite from './views/Msite.vue'
+// import Order from './views/Order.vue'
 import Profile from './views/Profile.vue'
 import Search from './views/Search.vue'
 import Login from './views/Login.vue'
@@ -9,6 +9,9 @@ import Shop from './views/shop/Shop.vue'
 import ShopGoods from './views/shop/ShopGoods.vue'
 import ShopRatings from './views/shop/ShopRatings.vue'
 import ShopInfo from './views/shop/ShopInfo.vue'
+// 路由组件懒加载
+const Msite = () => import('./views/Msite.vue')
+const Order = () => import('./views/Order.vue')
 
 Vue.use(Router)
 
